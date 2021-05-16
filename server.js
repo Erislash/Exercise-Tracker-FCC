@@ -15,6 +15,8 @@ app.get('/', (req, res) => {
 const users = require(path.join(__dirname, 'routes', 'users.js'));
 app.use(users);
 
+const exercises = require(path.join(__dirname, 'routes', 'exercises.js'));
+app.use(exercises);
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
