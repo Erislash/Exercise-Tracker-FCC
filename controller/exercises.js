@@ -24,7 +24,7 @@ function NewExercise(req, res){
     const params = {
         id: req.params._id,
         description: req.body.description,
-        duration: req.body.duration,
+        duration: Number(req.body.duration),
         date: date
     }
 
