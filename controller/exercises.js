@@ -29,7 +29,7 @@ function NewExercise(req, res){
     }
 
     AddExercise(params, (result) => {
-        res.json({result});
+        res.json(result);
     });
 }
 
