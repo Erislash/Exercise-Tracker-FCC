@@ -9,6 +9,7 @@ function SaveUserController(req, res){
 }
 
 function GetUsersController(req, res){
+    console.log(req.query);
     GetUsers((result) => {
         res.json(result);
     });

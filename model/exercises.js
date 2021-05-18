@@ -8,10 +8,32 @@ dbCol(c => {
 });
 
 
-function GetExercise(id, callback){
+function GetExercise(id, callback, params = false){
     collection.findOne({_id : ObjectId(id)})
     .then(res => {
         if(res){
+            if(res.log){
+                let log = res.log;
+                if(params.from){
+                    console.log(log);
+                    log = log.filter(ex => {
+                        // console.log(new Date(params.from) <= new Date(ex.date));
+                        const dif = new Date(ex.date) >= new Date(params.from);
+                        return dif;
+                    });
+                }
+
+                if(params.to){
+                    log = log.filter(ex => {
+                        return new Date(ex.date) <= new Date(params.to);
+                    });
+                }
+                if(params.limit)
+                    log = log.slice(0, params.limit);
+
+                res.log = log;
+            }
+
             callback(res)
             return;
         }
@@ -51,7 +73,7 @@ function AddExercise(params, callback){
 
 
 
-function GetExercisesLog(id, callback){
+function GetExercisesLog({id, from, to, limit}, callback){
     GetExercise(id, (res) => {
         if(res === -1){
             callback({error: 'Can not get log'});
@@ -61,7 +83,7 @@ function GetExercisesLog(id, callback){
         result.count = res.log.length;
 
         callback(result);
-    })
+    }, {from, to, limit})
 }
 
 

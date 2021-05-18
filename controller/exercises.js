@@ -21,7 +21,6 @@ function NewExercise(req, res){
 
     date = date.toDateString();
 
-    console.log(date);
     const params = {
         id: req.params._id,
         description: req.body.description,
@@ -32,12 +31,23 @@ function NewExercise(req, res){
     AddExercise(params, (result) => {
         res.json({result});
     });
-
-    // res.json({status:'On progress...'});
 }
 
 function GetExercises(req, res){
-    GetExercisesLog(req.params._id, (result) => {
+    if(!req.params._id){
+        res.json({error:'Invalid ID'})
+        return;
+    }
+
+    const params = {
+        id: req.params._id,
+        from: (req.query.from) ? req.query.from : null,
+        to: (req.query.to) ? req.query.to : null,
+        limit: (req.query.limit) ? req.query.limit : null
+    }
+
+    console.log(req.query);
+    GetExercisesLog(params, (result) => {
         res.json(result);
     });
 }
