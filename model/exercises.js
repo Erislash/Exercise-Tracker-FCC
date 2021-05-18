@@ -17,7 +17,6 @@ function GetExercise(id, callback, params = false){
                 if(params.from){
                     console.log(log);
                     log = log.filter(ex => {
-                        // console.log(new Date(params.from) <= new Date(ex.date));
                         const dif = new Date(ex.date) >= new Date(params.from);
                         return dif;
                     });
@@ -61,7 +60,10 @@ function AddExercise(params, callback){
 
         collection.updateOne({_id : ObjectId(params.id)}, {$set:{log: log}})
         .then(update => {
-            res.log = log;
+            res.log = undefined;
+            res.description = params.description;
+            res.duration = params.duration;
+            res.date = params.date;
             callback(res);
         })
         .catch(err => {
